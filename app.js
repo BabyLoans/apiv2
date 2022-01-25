@@ -11,15 +11,14 @@ var usersRouter = require('./routes/users');
 
 
 var pgp = require("pg-promise")(/*options*/);
-var db = pgp("postgres://"+`${process.env.DB_USER}`+":"+`${process.env.DB_PASSWORD}`+"@"+`${process.env.DB_PASSWORD}`+":5432/"+`${process.env.DB_DATABASE}`);
+var db = pgp("postgres://"+process.env.DB_USER+":"+process.env.DB_PASSWORD+"@"+process.env.DB_PASSWORD+":5432/"+process.env.DB_DATABASE);
 
 var app = express();
-console.log(`${process.env.DB_USER}`)
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
-app.set('superSecret', `${process.env.SECRET_JWT}`);
+app.set('superSecret', process.env.SECRET_JWT);
 
 app.use(logger('dev'));
 app.use(express.json());
