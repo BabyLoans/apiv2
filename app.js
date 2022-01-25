@@ -78,7 +78,6 @@ app.use(function(err, req, res, next) {
         
   }
 });
-  
 
 /**
  * Route : connexion de l'utilisateur
