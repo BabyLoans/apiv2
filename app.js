@@ -15,6 +15,7 @@ var db = pgp("postgres://"+process.env.DB_USER+":"+process.env.DB_PASSWORD+"@"+p
 
 var app = express();
 
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
