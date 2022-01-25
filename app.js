@@ -11,7 +11,7 @@ var usersRouter = require('./routes/users');
 
 
 var pgp = require("pg-promise")(/*options*/);
-var db = pgp("postgres://"+process.env.DB_USER+":"+process.env.DB_PASSWORD+"@"+process.env.DB_PASSWORD+":5432/"+process.env.DB_DATABASE);
+var db = pgp("postgres://"+process.env.DB_USER+":"+process.env.DB_PASSWORD+"@"+process.env.DB_HOST+":5432/"+process.env.DB_DATABASE);
 
 var app = express();
 
