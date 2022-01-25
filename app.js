@@ -92,8 +92,7 @@ myRouter.route('/db_test').get(function(req,res){
 
         return res.status(200).json({
           success: false,
-          message: error,
-          db_chain: "postgres://"+process.env.DB_USER+":"+process.env.DB_PASSWORD+"@"+process.env.DB_HOST+":5432/"+process.env.DB_DATABASE
+          message: error
         });
 
     });
