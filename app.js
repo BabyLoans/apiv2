@@ -4,24 +4,17 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var jwt = require('jsonwebtoken');
-const dotenv = require('dotenv');
+require('dotenv').config();
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 
-// /**
-//  * Connexion à la base de données
-//  */
-// var connection = mysql.createConnection({
-//   host     : `${process.env.DB_HOST}`,
-//   user     : `${process.env.DB_USER}`,
-//   password : `${process.env.DB_PASSWORD}`,
-//   database : `${process.env.DB_DATABASE}`
-// });
-// connection.connect();
+var pgp = require("pg-promise")(/*options*/);
+var db = pgp("postgres://"+`${process.env.DB_USER}`+":"+`${process.env.DB_PASSWORD}`+"@"+`${process.env.DB_PASSWORD}`+":5432/"+`${process.env.DB_DATABASE}`);
 
 var app = express();
+console.log(`${process.env.DB_USER}`)
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -79,6 +72,32 @@ app.use(function(err, req, res, next) {
         
   }
 });
+
+/**
+ * Route : database test
+ */
+myRouter.route('/db_test').get(function(req,res){
+
+  db.one("SELECT pg_is_in_recovery()")
+    .then(function (data) {
+
+      return res.status(200).json({
+        success: true,
+        results: data
+      });
+
+    })
+    .catch(function (error) {
+
+        return res.status(200).json({
+          success: false,
+          message: error
+        });
+
+    });
+
+});
+
 
 
 
