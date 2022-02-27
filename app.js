@@ -10,8 +10,8 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 
-var pgp = require("pg-promise")(/*options*/);
-var db = pgp("postgres://"+process.env.DB_USER+":"+process.env.DB_PASSWORD+"@"+process.env.DB_HOST+":5432/"+process.env.DB_DATABASE);
+// var pgp = require("pg-promise")(/*options*/);
+// var db = pgp("postgres://"+process.env.DB_USER+":"+process.env.DB_PASSWORD+"@"+process.env.DB_HOST+":5432/"+process.env.DB_DATABASE);
 
 
 var app = express();
@@ -54,52 +54,47 @@ app.use(function(err, req, res, next) {
 
 
 /**
- * Route : bonjour
+ * Route : Get all tokens infos 
  */
- myRouter.route('/hello').get(function(req,res){ 
-  
-  var token = req.query.token;
-  var allowed = validJWT(token);
+myRouter.route('/rate/tokens').get(function(req,res){ 
 
-  if(allowed){
+  var data = '{"tokens":[' +
+  '{"name":"usdt","rate":"5" },' +
+  '{"name":"usdc","rate":"7" },' +
+  '{"name":"dai","rate":"10" },' +
+  '{"name":"bbl","rate":"15" }]}';
 
-    res.status(200).json({
-      message : "Hello world !"
-    });
-
-  } else {
-
-    return res.status(401).json({ success: false, message: 'Echec de l\'authentification avec jeton !' }).end();   
-        
-  }
-});
-
-/**
- * Route : database test
- */
-myRouter.route('/db_test').get(function(req,res){
-
-  db.one("SELECT pg_is_in_recovery()")
-    .then(function (data) {
-
-      return res.status(200).json({
-        success: true,
-        results: data
-      });
-
-    })
-    .catch(function (error) {
-
-        return res.status(200).json({
-          success: false,
-          message: error
-        });
-
-    });
+  res.status(200).json({
+    success: true,
+    data : JSON.parse(data)
+  });
 
 });
 
+// /**
+//  * Route : database test
+//  */
+// myRouter.route('/db_test').get(function(req,res){
 
+//   db.one("SELECT pg_is_in_recovery()")
+//     .then(function (data) {
+
+//       return res.status(200).json({
+//         success: true,
+//         results: data
+//       });
+
+//     })
+//     .catch(function (error) {
+
+//         return res.status(200).json({
+//           success: false,
+//           message: error
+//         });
+
+//     });
+
+// });
 
 
 /**
