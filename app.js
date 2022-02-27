@@ -57,7 +57,7 @@ app.use(function(err, req, res, next) {
  * Route : Get all tokens infos 
  */
 myRouter.route('/rate/tokens').get(function(req,res){ 
-
+  res.set('Access-Control-Allow-Origin', '*');
   var data = '{"tokens":[' +
   '{"name":"usdt","rate":"5" },' +
   '{"name":"usdc","rate":"7" },' +
@@ -70,6 +70,7 @@ myRouter.route('/rate/tokens').get(function(req,res){
   });
 
 });
+
 
 // /**
 //  * Route : database test
