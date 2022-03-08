@@ -65,7 +65,7 @@ myRouter.route('/rate/tokens').get(function(req, res){
 
   pool.query('SELECT * FROM token INNER JOIN rate ON token.id = rate.token_id', (error, results) => {
     if (error) {
-      throw error
+      response.status(400).json("error")
     }
     response.status(200).json(results.rows)
   })
