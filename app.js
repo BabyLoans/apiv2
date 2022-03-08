@@ -10,8 +10,8 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 
-// var pgp = require("pg-promise")(/*options*/);
-// var db = pgp("postgres://"+process.env.DB_USER+":"+process.env.DB_PASSWORD+"@"+process.env.DB_HOST+":5432/"+process.env.DB_DATABASE);
+var pgp = require("pg-promise")(/*options*/);
+var db = pgp("postgres://"+process.env.DB_USER+":"+process.env.DB_PASSWORD+"@"+process.env.DB_HOST+":5432/"+process.env.DB_DATABASE);
 
 
 var app = express();
@@ -58,15 +58,27 @@ app.use(function(err, req, res, next) {
  */
 myRouter.route('/rate/tokens').get(function(req,res){ 
   res.set('Access-Control-Allow-Origin', '*');
-  var data = '{"tokens":[' +
-  '{"name":"usdt","rate":"5" },' +
-  '{"name":"usdc","rate":"7" },' +
-  '{"name":"dai","rate":"10" },' +
-  '{"name":"bbl","rate":"15" }]}';
+
+  console.log(process.env.DB_USER)
+  // db.one("SELECT * FROM token " + 
+  // "INNER JOIN rate " + 
+  // "ON token.id = rate.token_id")
+  //   .then(function (data) {
+  //       console.log("DATA:", data.value);
+  //   })
+  //   .catch(function (error) {
+  //       console.log("ERROR:", error);
+  //   });
+
+  // var data = '{"tokens":[' +
+  // '{"name":"usdt","rate":"5" },' +
+  // '{"name":"usdc","rate":"7" },' +
+  // '{"name":"dai","rate":"10" },' +
+  // '{"name":"bbl","rate":"15" }]}';
 
   res.status(200).json({
     success: true,
-    data : JSON.parse(data)
+    data : db
   });
 
 });
