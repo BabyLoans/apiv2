@@ -78,7 +78,7 @@ myRouter.route('/rate/tokens').get(function(req,res){
 
   res.status(200).json({
     success: true,
-    data : ""
+    data : process.env.DB_USER
   });
 
 });
