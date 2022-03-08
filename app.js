@@ -10,9 +10,14 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 
-var pgp = require("pg-promise")(/*options*/);
-var db = pgp("postgres://"+process.env.DB_USER+":"+process.env.DB_PASSWORD+"@"+process.env.DB_HOST+":5432/"+process.env.DB_DATABASE);
-
+const { Pool } = require('pg');
+const pool = new Pool({
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_DATABASE,
+  password: process.env.DB_PASSWORD,
+  port: 5432,
+})
 
 var app = express();
 
@@ -56,22 +61,15 @@ app.use(function(err, req, res, next) {
 /**
  * Route : Get all tokens infos 
  */
-myRouter.route('/rate/tokens').get(function(req,res){ 
+myRouter.route('/rate/tokens').get(function(req, res){ 
   res.set('Access-Control-Allow-Origin', '*');
 
-  db.one("SELECT * FROM token " + 
-  "INNER JOIN rate " + 
-  "ON token.id = rate.token_id")
-    .then(function (data) {
-      res.status(200).json({
-        success: true,
-        data : data
-      });
-      console.log("DATA:", data.value);
-    })
-    .catch(function (error) {
-        console.log("ERROR:", error);
-    });
+  pool.query('SELECT * FROM token INNER JOIN rate ON token.id = rate.token_id', (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(200).json(results.rows)
+  })
 });
 
 
