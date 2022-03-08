@@ -58,7 +58,7 @@ app.use(function(err, req, res, next) {
  */
 myRouter.route('/rate/tokens').get(function(req,res){ 
   res.set('Access-Control-Allow-Origin', '*');
-
+  console.log("ok")
   console.log(process.env.DB_USER)
   // db.one("SELECT * FROM token " + 
   // "INNER JOIN rate " + 
@@ -78,7 +78,7 @@ myRouter.route('/rate/tokens').get(function(req,res){
 
   res.status(200).json({
     success: true,
-    data : db
+    data : ""
   });
 
 });
