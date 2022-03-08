@@ -16,5 +16,3 @@ jobs:
           heroku_app_name: ${{secrets.HEROKU_PROJECT_NAME}}          
           heroku_email: ${{secrets.HEROKU_EMAIL}}
           usedocker: true
-        env: # Or as an environment variable
-          credentials: ${{secrets.DB_USER}}
