@@ -9,7 +9,6 @@ require('dotenv').config();
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
-
 const { Pool } = require('pg');
 const pool = new Pool({
   user: process.env.DB_USER,
@@ -17,9 +16,11 @@ const pool = new Pool({
   database: process.env.DB_DATABASE,
   password: process.env.DB_PASSWORD,
   port: 5432,
+  ssl: true
 })
 
 var app = express();
+
 
 
 // view engine setup
